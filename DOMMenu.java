@@ -1,4 +1,5 @@
 import java.io.*;               // import input-output
+import java.text.DecimalFormat;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.*;         // import parsers
@@ -109,6 +110,25 @@ public class DOMMenu {
 			System.out.println(menuLine);
 		}
 	}
+	System.out.println("\n\nCombos");
+	
+	String SaladName = query("//item[2]/name");
+	double SaladPrice = Double.parseDouble(query("//item[2]/price"));
+	
+	String SoupName = query("//item[3]/name");
+	double SoupPrice = Double.parseDouble(query("//item[3]/price"));
+	
+	String BurgerName = query("//item[4]/name");
+	double BurgerPrice = Double.parseDouble(query("//item[4]/price"));
+	
+	String PastaName = query("//item[6]/name");
+	double PastaPrice = Double.parseDouble(query("//item[6]/price"));
+	
+	DecimalFormat df = new DecimalFormat("#.##");
+	System.out.println(String.format("%-26s", (SaladName + " + " + BurgerName)) + "£" + df.format(SaladPrice + BurgerPrice));
+	System.out.println(String.format("%-26s", (SoupName + " + " + BurgerName)) + "£" + df.format(SoupPrice + BurgerPrice));
+	System.out.println(String.format("%-26s", (SaladName + " + " + PastaName)) + "£" + df.format(SaladPrice + PastaPrice));
+	
   }
 
   /**
