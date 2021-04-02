@@ -40,8 +40,9 @@ public class DOMMenu {
   public static void main(String[] args)  {
     // load XML file into "document"
     loadDocument(args[0]);
+    validateDocument(args[1]);
     // print staff.xml using DOM methods and XPath queries
-    printNodes();
+    printNodes();   
   
    
   }
@@ -83,8 +84,7 @@ public class DOMMenu {
       validator.validate(new DOMSource(document));
       return true;
     } catch (Exception e){
-      System.err.println(e);
-      System.err.println("Could not load schema or validate");
+      e.printStackTrace();
       return false;
     }
   }
@@ -92,11 +92,23 @@ public class DOMMenu {
     Print nodes using DOM methods and XPath queries.
   */
   private static void printNodes() {
-    Node menuItem_1 = document.getFirstChild();
-    Node menuItem_2 = menuItem_1.getFirstChild().getNextSibling();
-    System.out.println("First child is: " + menuItem_1.getNodeName());
-    System.out.println("  Child is: " + menuItem_2.getNodeName());
-
+    
+	NodeList nodeList = document.getElementsByTagName("item");
+	
+	for (int i = 0; i < nodeList.getLength(); i++) {
+		Node menuItem = nodeList.item(i);
+		if (menuItem.getNodeType() == Node.ELEMENT_NODE)
+		{
+			Element eElement = (Element) menuItem;
+			String itemName = String.format("%-15s", eElement.getElementsByTagName("name").item(0).getTextContent());
+			String itemPrice = String.format("£%-10s",eElement.getElementsByTagName("price").item(0).getTextContent());
+			String itemDescription = String.format("%-60s",eElement.getElementsByTagName("description").item(0).getTextContent());
+			
+			String menuLine = itemName + itemPrice + itemDescription;
+					
+			System.out.println(menuLine);
+		}
+	}
   }
 
   /**
